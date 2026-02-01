@@ -1,0 +1,34 @@
+name: Maven Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 and configure Maven server
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          server-id: github
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and deploy to GitHub Packages
+        run: mvn -B -DskipTests deploy
+
+# Notes:
+# - Ensure you replace OWNER/REPO in the project's <distributionManagement> in pom.xml.
+# - This workflow uses the built-in GITHUB_TOKEN and writes the server credentials into the
+#   Maven settings.xml for the duration of the job (actions/setup-java behavior).
