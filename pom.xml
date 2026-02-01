@@ -17,6 +17,11 @@
       <name>GitHub srkgullapalli Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/srkgullapalli/spring-petclinic</url>
     </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub srkgullapalli Snapshots</name>
+      <url>https://maven.pkg.github.com/srkgullapalli/spring-petclinic</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <properties>
