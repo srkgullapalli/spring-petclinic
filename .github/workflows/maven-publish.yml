@@ -5,7 +5,7 @@ on:
 
 permissions:
   contents: read
-  packages: write
+  packages: write${{ secrets.GH_PACKAGES_PAT }}
 
 jobs:
   publish:
@@ -14,14 +14,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17 and configure Maven server
+
+      - name: Set up JDK 17 and install Maven
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-          server-id: github
-          server-username: ${{ github.actor }}
-          server-password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Maven
         run: |
@@ -37,8 +35,6 @@ jobs:
 
       - name: Deploy the built artifact to GitHub Packages
         run: mvn -B -DskipTests deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # Notes:
 # - Ensure you replace OWNER/REPO in the project's <distributionManagement> in pom.xml.
