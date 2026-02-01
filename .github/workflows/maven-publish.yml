@@ -25,8 +25,22 @@ jobs:
           server-username: ${{ github.actor }}
           server-password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and deploy to GitHub Packages
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+          mvn -v
+
+      - name: Build with Maven (package)
+        run: mvn -B -DskipTests clean package
+
+      - name: Show built artifacts
+        run: ls -la target || true
+
+      - name: Deploy the built artifact to GitHub Packages
         run: mvn -B -DskipTests deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # Notes:
 # - Ensure you replace OWNER/REPO in the project's <distributionManagement> in pom.xml.
