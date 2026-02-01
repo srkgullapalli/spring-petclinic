@@ -10,7 +10,6 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,12 +17,12 @@ jobs:
       - name: Set up JDK 17 with Maven and GitHub Packages auth
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
           cache: maven
           server-id: github
-          server-username: srkgullapalli
-          server-password: GH_PACKAGES_PAT
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
 
       - name: Build with Maven
         run: mvn -B -DskipTests clean package
