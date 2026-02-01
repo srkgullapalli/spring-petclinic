@@ -21,14 +21,14 @@ jobs:
           java-version: '17'
           cache: maven
           server-id: github
-          server-username: srkgullapalli
+          server-username: GITHUB_ACTOR
           server-password: ${{ secrets.GH_PACKAGES_PAT }}
 
       - name: Build with Maven
         run: mvn -B -DskipTests clean package
 
-      - name: Show built artifacts
-        run: ls -la target || true
+      - name: Show Maven settings
+        run: cat ~/.m2/settings.xml
 
       - name: Deploy to GitHub Packages
         run: mvn -B -DskipTests deploy
